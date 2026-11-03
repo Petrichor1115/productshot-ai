@@ -1,0 +1,28 @@
+# 统一换行符，避免 Windows / macOS 协作时全文件 diff
+* text=auto eol=lf
+
+# 明确的二进制文件
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.db binary
+*.sqlite binary
+*.zip binary
+
+# 保证文档与脚本的换行一致
+*.md text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.sql text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# GitHub linguist 统计口径
+docs/architecture/* linguist-documentation
+docs/prd/* linguist-documentation
+docs/tickets/* linguist-documentation
+docs/integration/* linguist-documentation

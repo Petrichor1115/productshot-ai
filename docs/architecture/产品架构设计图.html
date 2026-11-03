@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ProductShot AI — 产品架构设计图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #F0F4F8;
+    padding: 48px 32px;
+    color: #1F2937;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E3A8A;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 16px;
+    color: #6B7280;
+  }
+
+  .layer {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .layer-label {
+    position: absolute;
+    top: -14px;
+    left: 28px;
+    background: #2563EB;
+    color: #fff;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .layer-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1E40AF;
+    margin-bottom: 20px;
+    margin-left: 8px;
+  }
+
+  .cards { display: flex; gap: 20px; flex-wrap: wrap; }
+  .card {
+    flex: 1;
+    min-width: 200px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .card-icon { font-size: 32px; margin-bottom: 8px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #1E3A8A; margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: #64748B; line-height: 1.6; }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  .module {
+    background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+    border: 1px solid #BFDBFE;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .module-name { font-size: 14px; font-weight: 600; color: #1E40AF; margin-bottom: 4px; }
+  .module-desc { font-size: 11px; color: #3B82F6; }
+
+  .data-layer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .data-box {
+    background: #FEF3C7;
+    border: 1px solid #FCD34D;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .data-box h4 { font-size: 15px; color: #92400E; margin-bottom: 12px; }
+  .data-box ul { list-style: none; }
+  .data-box li { font-size: 13px; color: #78350F; padding: 4px 0; }
+
+  .arrow {
+    text-align: center;
+    font-size: 28px;
+    color: #2563EB;
+    margin: -12px 0;
+    position: relative;
+    z-index: 10;
+  }
+  .arrow-label {
+    font-size: 12px;
+    color: #6B7280;
+    background: #F0F4F8;
+    padding: 2px 12px;
+    border-radius: 12px;
+    margin-top: -6px;
+    display: inline-block;
+  }
+
+  .volc-layer {
+    background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+    border: 2px solid #818CF8;
+  }
+  .volc-card {
+    flex: 1;
+    min-width: 280px;
+    background: #fff;
+    border: 1px solid #A5B4FC;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .volc-card .model-name { font-size: 16px; font-weight: 700; color: #3730A3; margin-bottom: 6px; }
+  .volc-card .model-desc { font-size: 13px; color: #6366F1; }
+
+  .flow-section {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .flow-title { font-size: 18px; font-weight: 600; color: #1E40AF; margin-bottom: 20px; }
+  .flow-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .flow-step {
+    background: #2563EB;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-arrow { color: #9CA3AF; font-size: 18px; }
+
+  .tech-list {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .tech-tag {
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    color: #475569;
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>ProductShot AI — 产品架构设计图</h1>
+    <p>AI 商品套图生成器 · Web 端全栈架构</p>
+  </div>
+
+  <!-- 浏览器层 -->
+  <div class="layer">
+    <div class="layer-label">① 表现层</div>
+    <div class="layer-title">浏览器（Web 网页端）</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">👤</div>
+        <div class="card-title">用户端 SPA</div>
+        <div class="card-desc">index.html（登录）<br>workspace.html（工作台）</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">管理端 SPA</div>
+        <div class="card-desc">admin.html（登录）<br>admin-dashboard.html（仪表盘）</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">UI 规范</div>
+        <div class="card-desc">极简卡片式布局<br>主色 #2563EB</div>
+      </div>
+    </div>
+    <div class="tech-list">
+      <span class="tech-tag">原生 HTML</span>
+      <span class="tech-tag">CSS</span>
+      <span class="tech-tag">JavaScript</span>
+      <span class="tech-tag">无构建工具</span>
+    </div>
+  </div>
+
+  <div class="arrow">▼<br><span class="arrow-label">REST API · JSON</span></div>
+
+  <!-- 后端层 -->
+  <div class="layer">
+    <div class="layer-label">② 业务层</div>
+    <div class="layer-title">后端服务（Node.js + Express）</div>
+    <div class="module-grid">
+      <div class="module">
+        <div class="module-name">认证模块</div>
+        <div class="module-desc">注册 / 登录 / JWT 鉴权</div>
+      </div>
+      <div class="module">
+        <div class="module-name">会话管理</div>
+        <div class="module-desc">多会话隔离 / CRUD</div>
+      </div>
+      <div class="module">
+        <div class="module-name">套图生成</div>
+        <div class="module-desc">AI 分析 + 3 类图生成</div>
+      </div>
+      <div class="module">
+        <div class="module-name">管理统计</div>
+        <div class="module-desc">统计数据 / 记录列表</div>
+      </div>
+    </div>
+
+    <div class="data-layer" style="margin-top:20px;">
+      <div class="data-box">
+        <h4>🗄️ SQLite 数据库 (data.db)</h4>
+        <ul>
+          <li><strong>users</strong> — 用户账号</li>
+          <li><strong>sessions</strong> — 绘画会话</li>
+          <li><strong>generations</strong> — 生成记录</li>
+        </ul>
+      </div>
+      <div class="data-box" style="background:#D1FAE5;border-color:#6EE7B7;">
+        <h4 style="color:#065F46;">⚙️ Skill 模板引擎</h4>
+        <ul style="color:#064E3B;">
+          <li><strong>product-shot-template.json</strong></li>
+          <li>01 主图模板（白底）</li>
+          <li>02 场景展示模板</li>
+          <li>03 卖点详解模板</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tech-list">
+      <span class="tech-tag">Node.js</span>
+      <span class="tech-tag">Express</span>
+      <span class="tech-tag">better-sqlite3</span>
+      <span class="tech-tag">bcryptjs</span>
+      <span class="tech-tag">jsonwebtoken</span>
+      <span class="tech-tag">multer</span>
+    </div>
+  </div>
+
+  <div class="arrow">▼<br><span class="arrow-label">HTTP API · 火山引擎方舟</span></div>
+
+  <!-- 火山引擎层 -->
+  <div class="layer volc-layer">
+    <div class="layer-label" style="background:#6366F1;">③ AI 服务层</div>
+    <div class="layer-title" style="color:#3730A3;">火山引擎方舟 VolcEngine Ark</div>
+    <div class="cards">
+      <div class="volc-card">
+        <div class="card-icon">💬</div>
+        <div class="model-name">豆包 C 2.1 Lite</div>
+        <div class="model-desc">多模态理解 · 图像分析<br>提取商品名称 / 类别 / 卖点</div>
+      </div>
+      <div class="volc-card">
+        <div class="card-icon">🖼️</div>
+        <div class="model-name">Seedream 5.0 Pro</div>
+        <div class="model-desc">图生图 / 文生图<br>生成主图 / 场景图 / 卖点图</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 核心流程 -->
+  <div class="flow-section">
+    <div class="flow-title">🔄 套图生成核心流程</div>
+    <div class="flow-steps">
+      <div class="flow-step">用户上传<br>商品原图</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">豆包 C 2.1<br>分析提取卖点</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">加载 Skill<br>模板填充</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">Seedream<br>生成 3 张图</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">保存记录<br>返回 URL</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">前端展示<br>预览下载</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

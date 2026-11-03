@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>数据库快照 · ProductShot AI</title>
+<style>
+  :root {
+    --brand: #5b7bee; --bg: #f4f6fb; --surface: #fff; --line: #e5e7eb;
+    --text-1: #111827; --text-2: #4b5563; --text-3: #6b7280; --text-4: #9ca3af;
+    --ok: #10b981; --bad: #ef4444; --run: #3b82f6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
+         background: var(--bg); color: var(--text-2); font-size: 13px; line-height: 1.6; }
+  header { background: var(--surface); border-bottom: 1px solid var(--line); padding: 20px 32px; }
+  header h1 { margin: 0; font-size: 20px; color: var(--text-1); font-weight: 600; }
+  header p { margin: 4px 0 0; color: var(--text-4); font-size: 12px; }
+  main { padding: 24px 32px 48px; max-width: 1440px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
+  .stat b { display: block; font-size: 26px; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 12px; color: var(--text-3); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+          margin-bottom: 20px; overflow: hidden; }
+  .card__head { display: flex; align-items: center; gap: 12px; padding: 14px 20px;
+                border-bottom: 1px solid var(--line); background: #f9fafb; }
+  .card__head h2 { margin: 0; font-size: 15px; color: var(--text-1); font-weight: 600; }
+  .card__note { font-size: 12px; color: var(--text-4); }
+  .badge { margin-left: auto; background: #eef2ff; color: var(--brand); font-size: 12px;
+           padding: 2px 10px; border-radius: 999px; font-weight: 500; }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: left; padding: 10px 12px; background: #f9fafb; color: var(--text-3);
+       font-weight: 500; white-space: nowrap; border-bottom: 1px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid #f1f2f5; vertical-align: middle; }
+  tbody tr:hover { background: #f9fafb; }
+  .null { color: var(--text-4); font-style: italic; }
+  .empty-row { text-align: center; color: var(--text-4); padding: 24px; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+  .pill i { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .pill.ok i { background: var(--ok); } .pill.ok { color: #047857; }
+  .pill.bad i { background: var(--bad); } .pill.bad { color: #b91c1c; }
+  .pill.run i { background: var(--run); } .pill.run { color: #1d4ed8; }
+  .thumb { width: 44px; height: 44px; border-radius: 6px; object-fit: cover;
+           border: 1px solid #eef0f4; background: #f3f4f6; cursor: zoom-in; }
+  code { background: #f3f4f6; padding: 1px 6px; border-radius: 4px; font-size: 11px;
+         font-family: Consolas, Monaco, monospace; color: #374151; }
+  pre { margin: 0; padding: 16px 20px; background: #0f172a; color: #cbd5e1; font-size: 11.5px;
+        line-height: 1.7; overflow-x: auto; font-family: Consolas, Monaco, monospace; }
+  .modal { position: fixed; inset: 0; background: rgba(17,24,39,.6); display: flex;
+           align-items: center; justify-content: center; z-index: 99; padding: 32px; }
+  .modal img { max-width: 100%; max-height: 88vh; border-radius: 12px; background: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <h1>数据库快照 · ProductShot AI</h1>
+  <p>D:\Github\20261024-wt\loop-demo\data\productshot.db · 导出时间 2026/11/3 18:54:35</p>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat"><b>4</b><span>users 用户</span></div>
+    <div class="stat"><b>3</b><span>sessions 会话</span></div>
+    <div class="stat"><b>9</b><span>generations 生图记录</span></div>
+    <div class="stat"><b>10</b><span>索引</span></div>
+  </div>
+
+  
+    <section class="card">
+      <div class="card__head">
+        <h2>users · 用户表</h2>
+        <span class="card__note">bcrypt 哈希密码，role 区分普通用户与管理员</span>
+        <span class="badge">4 行</span>
+      </div>
+      <div class="table-scroll"><table><thead><tr><th>id</th><th>username</th><th>password (哈希)</th><th>role</th><th>nickname</th><th>status</th><th>created_at</th></tr></thead><tbody><tr><td>1</td><td><b>admin</b></td><td><span title="$2a$10$auboh1aRpoZWMVP7krWTVefDjqkYKNwAvUSnFfz5li5GlOhSPUlOq">$2a$10$auboh1aRpoZWMVP7krWTVefDjqk…</span></td><td>admin</td><td>管理员</td><td>active</td><td>2026-11-03 18:53:59</td></tr><tr><td>2</td><td><b>smoke1793703243444</b></td><td><span title="$2a$10$JW8SKrZLyKeg4xSFmHPwAu6uDpoJzCWFa2pL7Pqyw.hTreTismF5O">$2a$10$JW8SKrZLyKeg4xSFmHPwAu6uDpo…</span></td><td>user</td><td>smoke1793703243444</td><td>active</td><td>2026-11-03 18:54:03</td></tr><tr><td>3</td><td><b>smoke1793703243444b</b></td><td><span title="$2a$10$.wYhzHNxQM/ixvN9pT4Msuadg5iiJxlU87uJ4XvhrlZqAW0MZ62pC">$2a$10$.wYhzHNxQM/ixvN9pT4Msuadg5i…</span></td><td>user</td><td>smoke1793703243444b</td><td>active</td><td>2026-11-03 18:54:03</td></tr><tr><td>4</td><td><b>demo01</b></td><td><span title="$2a$10$3wCqL0fItTJgubJWJlkluOy5bdDllG/9.PScIgm0d05vjhjsTSvVS">$2a$10$3wCqL0fItTJgubJWJlkluOy5bdD…</span></td><td>user</td><td>演示用户</td><td>active</td><td>2026-11-03 18:54:04</td></tr></tbody></table></div>
+    </section>
+
+  
+    <section class="card">
+      <div class="card__head">
+        <h2>sessions · 会话表</h2>
+        <span class="card__note">original_images 为 JSON 数组（最多 9 张主图），shot_types 为组图开关 JSON</span>
+        <span class="badge">3 行</span>
+      </div>
+      <div class="table-scroll"><table><thead><tr><th>id</th><th>user_id</th><th>name</th><th>original_images</th><th>supplement</th><th>shot_types</th><th>style</th><th>created_at</th></tr></thead><tbody><tr><td>4</td><td>4</td><td><b>便携咖啡杯场景</b></td><td><span title="[&quot;/uploads/up-demo-mw0klkxr-b2171356.png&quot;]">[&quot;/uploads/up-demo-mw0klkxr-b2171356.png…</span></td><td><span title="1. 产品名称：随行咖啡杯 380ml
+2. 尺寸参数：380ml / 316 不锈钢内胆
+3. 核心卖点：6 小时保温、一键弹盖、单手可握">1. 产品名称：随行咖啡杯 380ml
+2. 尺寸参数：380ml / 316 …</span></td><td>[&quot;main&quot;,&quot;scene&quot;,&quot;selling&quot;]</td><td>natural</td><td>2026-11-03 18:54:04</td></tr><tr><td>3</td><td>4</td><td><b>雾屿香氛主图</b></td><td><span title="[&quot;/uploads/up-demo-mw0klkxr-b2171356.png&quot;]">[&quot;/uploads/up-demo-mw0klkxr-b2171356.png…</span></td><td><span title="1. 产品名称：雾屿香氛 50ml
+2. 尺寸参数：50ml / 高 11cm
+3. 核心卖点：木质香调、留香 12 小时、磨砂瓶身">1. 产品名称：雾屿香氛 50ml
+2. 尺寸参数：50ml / 高 11cm
+…</span></td><td>[&quot;main&quot;,&quot;scene&quot;,&quot;selling&quot;]</td><td>premium</td><td>2026-11-03 18:54:04</td></tr><tr><td>2</td><td>4</td><td><b>无线蓝牙耳机套图</b></td><td><span title="[&quot;/uploads/up-demo-mw0klkxr-b2171356.png&quot;]">[&quot;/uploads/up-demo-mw0klkxr-b2171356.png…</span></td><td><span title="1. 产品名称：SoundFree 无线蓝牙耳机
+2. 尺寸参数：单耳 4.2g
+3. 核心卖点：主动降噪、30h 续航、半入耳无压迫">1. 产品名称：SoundFree 无线蓝牙耳机
+2. 尺寸参数：单耳 4.2g…</span></td><td>[&quot;main&quot;,&quot;scene&quot;,&quot;selling&quot;]</td><td>minimal</td><td>2026-11-03 18:54:04</td></tr></tbody></table></div>
+    </section>
+
+  
+    <section class="card">
+      <div class="card__head">
+        <h2>generations · 生图记录表</h2>
+        <span class="card__note">点击缩略图可查看大图；status 四态：pending / generating / success / failed</span>
+        <span class="badge">9 行</span>
+      </div>
+      <div class="table-scroll"><table><thead><tr><th>id</th><th>session_id</th><th>gen_type</th><th>shot_type</th><th>status</th><th>saved_path</th><th>duration_ms</th><th>created_at</th><th>缩略图</th></tr></thead><tbody><tr><td>12</td><td>4</td><td>product_set</td><td>卖点介绍</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkyf-bb8b904b.svg">/uploads/gen-demo-mw0klkyf-bb8b9…</span></td><td>6221 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkyf-bb8b904b.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>11</td><td>4</td><td>product_set</td><td>使用场景</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkye-0b478f08.svg">/uploads/gen-demo-mw0klkye-0b478…</span></td><td>4514 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkye-0b478f08.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>10</td><td>4</td><td>product_set</td><td>产品主图</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkyd-81ba9891.svg">/uploads/gen-demo-mw0klkyd-81ba9…</span></td><td>5672 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkyd-81ba9891.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>9</td><td>3</td><td>product_set</td><td>卖点介绍</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkyd-f45dc9a1.svg">/uploads/gen-demo-mw0klkyd-f45dc…</span></td><td>4313 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkyd-f45dc9a1.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>8</td><td>3</td><td>product_set</td><td>使用场景</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkyc-6bc7415f.svg">/uploads/gen-demo-mw0klkyc-6bc74…</span></td><td>3841 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkyc-6bc7415f.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>7</td><td>3</td><td>product_set</td><td>产品主图</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkyc-77d509ac.svg">/uploads/gen-demo-mw0klkyc-77d50…</span></td><td>5742 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkyc-77d509ac.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>6</td><td>2</td><td>product_set</td><td>卖点介绍</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkyb-3a7609d0.svg">/uploads/gen-demo-mw0klkyb-3a760…</span></td><td>5164 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkyb-3a7609d0.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>5</td><td>2</td><td>product_set</td><td>使用场景</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkya-6d3ee6c3.svg">/uploads/gen-demo-mw0klkya-6d3ee…</span></td><td>5200 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkya-6d3ee6c3.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr><tr><td>4</td><td>2</td><td>product_set</td><td>产品主图</td><td><span class="pill ok"><i></i>成功</span></td><td><span title="/uploads/gen-demo-mw0klkya-c98fe804.svg">/uploads/gen-demo-mw0klkya-c98fe…</span></td><td>5954 ms</td><td>2026-11-03 18:54:04</td><td><img class="thumb" src="/uploads/gen-demo-mw0klkya-c98fe804.svg" alt="缩略图" onclick="zoom(this.src)"/></td></tr></tbody></table></div>
+    </section>
+
+  
+    <section class="card">
+      <div class="card__head">
+        <h2>索引清单</h2>
+        <span class="card__note">索引规划详见 db/schema.sql 末尾注释</span>
+        <span class="badge">10 行</span>
+      </div>
+      <div class="table-scroll"><table><thead><tr><th>索引名</th><th>所属表</th><th>定义</th></tr></thead><tbody><tr><td>idx_generations_created_at</td><td>generations</td><td><code>CREATE INDEX idx_generations_created_at ON generations (created_at DESC)</code></td></tr><tr><td>idx_generations_gen_type</td><td>generations</td><td><code>CREATE INDEX idx_generations_gen_type ON generations (gen_type)</code></td></tr><tr><td>idx_generations_session_created</td><td>generations</td><td><code>CREATE INDEX idx_generations_session_created ON generations (session_id, created_at ASC)</code></td></tr><tr><td>idx_generations_status</td><td>generations</td><td><code>CREATE INDEX idx_generations_status ON generations (status)</code></td></tr><tr><td>idx_sessions_created_at</td><td>sessions</td><td><code>CREATE INDEX idx_sessions_created_at ON sessions (created_at DESC)</code></td></tr><tr><td>idx_sessions_user_created</td><td>sessions</td><td><code>CREATE INDEX idx_sessions_user_created ON sessions (user_id, created_at DESC)</code></td></tr><tr><td>idx_sessions_user_id</td><td>sessions</td><td><code>CREATE INDEX idx_sessions_user_id ON sessions (user_id)</code></td></tr><tr><td>idx_users_created_at</td><td>users</td><td><code>CREATE INDEX idx_users_created_at ON users (created_at DESC)</code></td></tr><tr><td>idx_users_role</td><td>users</td><td><code>CREATE INDEX idx_users_role ON users (role)</code></td></tr><tr><td>uk_users_username</td><td>users</td><td><code>CREATE UNIQUE INDEX uk_users_username ON users (username)</code></td></tr></tbody></table></div>
+    </section>
+
+  <section class="card">
+    <div class="card__head"><h2>建表 DDL</h2><span class="card__note">来自 db/schema.sql 的实际落库结果</span></div>
+    <pre>CREATE TABLE generations (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,   -- 记录 ID
+    session_id  INTEGER NOT NULL                     -- 所属会话 ID，外键关联 sessions.id
+                 REFERENCES sessions (id) ON DELETE CASCADE,
+    gen_type    TEXT    NOT NULL DEFAULT 'product_set',  -- 生图类型：product_set=生成套图（预留 ai_image 等扩展）
+    shot_type   TEXT    NOT NULL                     -- 套图类型：main=产品主图 / scene=使用场景 / selling=卖点介绍
+                CHECK (shot_type IN ('main', 'scene', 'selling')),
+    saved_path  TEXT,                                -- 生成图保存相对路径（如 /uploads/gen_xxx.png）
+    prompt      TEXT,                                -- 本次生成使用的最终提示词，便于回溯与质检
+    status      TEXT    NOT NULL DEFAULT 'pending'   -- 状态：pending=排队 / generating=进行中 / success=成功 / failed=失败
+                CHECK (status IN ('pending', 'generating', 'success', 'failed')),
+    error_msg   TEXT,                                -- 失败原因（status=failed 时写入）
+    duration_ms INTEGER,                             -- 本次生成耗时（毫秒），用于前端展示「用时 Xs」与性能观测
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),  -- 生成时间（管理端展示精确到分钟）
+    updated_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))
+);
+
+CREATE TABLE schema_migrations (
+    version     TEXT PRIMARY KEY,                    -- 版本号，如 '2.1.0'
+    description TEXT,                                -- 迁移说明
+    applied_at  TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))  -- 应用时间
+);
+
+CREATE TABLE sessions (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,  -- 会话 ID
+    user_id          INTEGER NOT NULL                    -- 所属用户 ID，外键关联 users.id
+                     REFERENCES users (id) ON DELETE CASCADE,
+    name             TEXT    NOT NULL,                   -- 会话名称（用户自定义，如「蓝牙耳机测试」）
+    original_image   TEXT,                               -- 原图相对路径（单图兼容字段，如 /uploads/xxx.png）
+    original_images  TEXT,                               -- 原图路径数组 JSON（v2.0 多图，最多 9 张）
+    supplement       TEXT,                               -- 补充信息（品牌/尺寸参数/核心卖点/使用场景），上限 500 字
+    shot_types       TEXT,                               -- 组图类型开关 JSON 数组，如 [&quot;main&quot;,&quot;scene&quot;,&quot;selling&quot;]
+    style            TEXT,                               -- 自选风格：minimal / premium / natural / dark
+    created_at       TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),  -- 会话创建时间
+    updated_at       TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))   -- 会话最后更新时间
+);
+
+CREATE TABLE users (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,   -- 用户 ID，自增主键
+    username    TEXT    NOT NULL UNIQUE,             -- 用户名，登录唯一标识（3~20 字符）
+    password    TEXT    NOT NULL,                    -- 密码，bcrypt 哈希（cost=10），永不存明文
+    role        TEXT    NOT NULL DEFAULT 'user'      -- 角色：user=普通用户 / admin=管理员
+                CHECK (role IN ('user', 'admin')),
+    nickname    TEXT,                                -- 展示昵称，为空时前端回退显示 username
+    status      TEXT    NOT NULL DEFAULT 'active'    -- 账号状态：active=正常 / disabled=停用
+                CHECK (status IN ('active', 'disabled')),
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),  -- 注册时间
+    updated_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))   -- 最后更新时间
+);</pre>
+  </section>
+</main>
+<script>
+  function zoom(src) {
+    var m = document.createElement('div');
+    m.className = 'modal';
+    m.innerHTML = '<img src="' + src + '"/>';
+    m.onclick = function () { m.remove(); };
+    document.body.appendChild(m);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+/* ==========================================================================
+   ProductShot AI — 设计令牌（Design Tokens）
+   规范来源：PRD v2.1 视觉规范 + ui-ux-pro-max 设计体系
+   - 语义化命名，业务组件不直接使用裸 hex
+   - 8px 间距栅格 / 4.5:1 对比度 / 统一动效时长
+   ========================================================================== */
+
+:root {
+  /* ---------- 品牌色 ---------- */
+  --brand-600: #4a6ae0;   /* 主色按压态 */
+  --brand-500: #5b7bee;   /* 主色：按钮 / 选中态 / 高亮 */
+  --brand-400: #8aa0f5;   /* 渐变辅助 */
+  --brand-100: #e0e7ff;   /* 选中背景（管理端） */
+  --brand-50:  #eef2ff;   /* 浅选中背景（用户端） */
+
+  /* ---------- 中性色 ---------- */
+  --bg-app:      #f4f6fb; /* 全局背景（浅蓝灰） */
+  --bg-surface:  #ffffff; /* 卡片 / 侧栏 */
+  --bg-subtle:   #f9fafb; /* 次级背景 / 行 hover */
+  --bg-muted:    #f3f4f6; /* 按钮 hover / 骨架屏 */
+  --bg-admin:    #f9fafb; /* 管理端内容区背景 */
+
+  --border-strong: #e5e7eb;
+  --border:        #eef0f4;
+  --border-soft:   #f1f2f5;
+  --border-dash:   #d1d5db;
+
+  --text-1: #111827; /* 主标题 */
+  --text-2: #4b5563; /* 正文 */
+  --text-3: #6b7280; /* 辅助文字 */
+  --text-4: #9ca3af; /* 浅辅助 */
+  --text-5: #b0b7c3; /* 输入占位 */
+  --text-invert: #ffffff;
+
+  /* ---------- 语义色 ---------- */
+  --success:      #10b981;
+  --success-bg:   #d1fae5;
+  --success-text: #047857;
+  --warning:      #f59e0b;
+  --warning-bg:   #fef3c7;
+  --warning-text: #b45309;
+  --danger:       #ef4444;
+  --danger-bg:    #fee2e2;
+  --info:         #3b82f6;
+  --info-bg:      #dbeafe;
+  --info-text:    #1d4ed8;
+
+  /* 管理端强调色（统计数值 / 导航选中） */
+  --admin-accent: #2563eb;
+
+  /* ---------- 标签色（套图类型） ---------- */
+  --tag-main-bg:    #dbeafe;
+  --tag-main-text:  #1d4ed8;
+  --tag-scene-bg:   #d1fae5;
+  --tag-scene-text: #047857;
+  --tag-sell-bg:    #fef3c7;
+  --tag-sell-text:  #b45309;
+
+  /* ---------- 间距（8px 栅格） ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* ---------- 圆角 ---------- */
+  --r-xs: 6px;    /* 缩略图小圆角 */
+  --r-sm: 7px;    /* 侧栏会话项 */
+  --r-md: 8px;    /* 按钮 / 输入框 */
+  --r-lg: 10px;   /* 上传虚线框 / 结果卡 */
+  --r-xl: 12px;   /* 管理端卡片 */
+  --r-2xl: 14px;  /* 结果卡 */
+  --r-3xl: 16px;  /* 登录卡片 */
+  --r-4xl: 18px;  /* 输入卡 */
+  --r-pill: 20px;
+  --r-full: 999px;
+
+  /* ---------- 阴影（统一层级） ---------- */
+  --sh-xs: 0 1px 2px rgba(31, 41, 55, 0.04);
+  --sh-sm: 0 2px 8px rgba(91, 123, 238, 0.06), 0 12px 32px rgba(31, 41, 55, 0.06);
+  --sh-md: 0 4px 16px rgba(31, 41, 55, 0.08);
+  --sh-lg: 0 8px 24px rgba(31, 41, 55, 0.12);
+  --sh-xl: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --sh-brand: 0 2px 6px rgba(91, 123, 238, 0.3);
+
+  /* ---------- 字号 ---------- */
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-base: 13px;
+  --fs-md: 14px;
+  --fs-lg: 15px;
+  --fs-xl: 20px;
+  --fs-2xl: 22px;
+  --fs-3xl: 24px;
+  --fs-stat: 32px;
+
+  /* ---------- 字重 ---------- */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ---------- 动效 ---------- */
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 240ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------- 层级 ---------- */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-sidebar: 20;
+  --z-toast: 100;
+  --z-modal: 1000;
+
+  /* ---------- 布局 ---------- */
+  --sidebar-w: 248px;
+  --sidebar-w-collapsed: 124px;
+  --admin-sidebar-w: 200px;
+  --admin-topbar-h: 64px;
+}

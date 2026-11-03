@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>工作台 · ProductShot AI</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/user.css" />
+</head>
+<body>
+<div class="workspace">
+
+  <!-- ============ 左侧栏（首页 248px / 套图页 124px） ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__user">
+      <div class="avatar" id="userAvatar">U</div>
+      <div class="sidebar__user-meta u-grow">
+        <div class="sidebar__user-name u-truncate" id="userName">—</div>
+        <div class="sidebar__user-sub u-truncate" id="userSub">个人专业版 · 剩余 20 易点</div>
+      </div>
+    </div>
+
+    <nav class="sidebar__section" aria-label="技能入口">
+      <div class="sidebar__section-title">技能</div>
+      <button class="skill-item is-active" type="button" data-skill="product_set">
+        <span class="skill-item__icon" data-icon="image"></span>
+        <span class="skill-item__label">生成套图</span>
+      </button>
+      <button class="skill-item" type="button" data-skill="ai_image">
+        <span class="skill-item__icon" data-icon="wand"></span>
+        <span class="skill-item__label">AI 生图</span>
+      </button>
+      <button class="skill-item" type="button" data-skill="hot_copy">
+        <span class="skill-item__icon" data-icon="copy"></span>
+        <span class="skill-item__label">爆款复刻</span>
+      </button>
+      <button class="skill-item" type="button" data-skill="recolor">
+        <span class="skill-item__icon" data-icon="palette"></span>
+        <span class="skill-item__label">商品换色</span>
+      </button>
+      <button class="skill-item" type="button" data-skill="style_split">
+        <span class="skill-item__icon" data-icon="scissors"></span>
+        <span class="skill-item__label">风格裂变</span>
+      </button>
+    </nav>
+
+    <div class="sidebar__section u-col u-grow" style="min-height:0">
+      <div class="session-head">
+        <span class="session-head__title">会话记录</span>
+        <button class="session-add" type="button" id="btnNewSession" title="新增会话">
+          <span data-icon="plus-sm"></span>新增会话
+        </button>
+      </div>
+      <div class="session-list scroll-y" id="sessionList"></div>
+    </div>
+
+    <button class="sidebar__logout" type="button" id="btnLogout">
+      <span data-icon="logout"></span><span>登出账号</span>
+    </button>
+  </aside>
+
+  <!-- ============ 视图 A：对话式首页 ============ -->
+  <main class="view-home" id="viewHome">
+    <div class="home-hero">
+      <div class="home-hero__mark" id="heroMark" aria-hidden="true"></div>
+      <h1 class="home-hero__title">告诉 AI 你想做什么</h1>
+      <p class="home-hero__desc">上传商品图 + 描述需求，一键生成专业套图</p>
+    </div>
+
+    <section class="composer">
+      <div class="composer__thumbs" id="composerThumbs"></div>
+
+      <div class="composer__row">
+        <button class="dropzone" type="button" id="composerDrop" aria-label="上传图片">
+          <span data-icon="plus"></span>
+          <span>上传图片</span>
+        </button>
+        <textarea class="composer__input" id="composerInput" rows="2"
+          placeholder="请上传图片，并描述您想完成的任务...&#10;例如：白底主图，突出耳机质感，简约风"></textarea>
+      </div>
+
+      <div class="composer__bar">
+        <div class="composer__agent">
+          <span data-icon="sparkles-sm"></span>
+          <span>Agent 模式</span>
+          <button class="switch is-on" id="agentSwitch" type="button" role="switch" aria-checked="true" aria-label="Agent 模式"></button>
+        </div>
+        <div class="u-flex u-gap-3">
+          <span class="badge--promo badge">免费生成</span>
+          <button class="btn-icon" id="btnSend" type="button" aria-label="发送" disabled>
+            <span data-icon="arrowUp"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <nav class="home-tabs" id="homeTabs" aria-label="功能快捷入口">
+      <button class="pill is-active" type="button" data-skill="product_set"><span data-icon="image-sm"></span>生成套图</button>
+      <button class="pill" type="button" data-skill="ai_image"><span data-icon="wand-sm"></span>AI 生图</button>
+      <button class="pill" type="button" data-skill="hot_copy"><span data-icon="copy-sm"></span>爆款复刻</button>
+      <button class="pill" type="button" data-skill="recolor"><span data-icon="palette-sm"></span>商品换色</button>
+      <button class="pill" type="button" data-skill="style_split"><span data-icon="scissors-sm"></span>风格裂变</button>
+    </nav>
+
+    <input type="file" id="composerFile" accept="image/jpeg,image/png,image/webp" multiple hidden />
+  </main>
+
+  <!-- ============ 视图 B：套图生成子页面（中列 + 右列） ============ -->
+  <div class="view-shot u-hidden" id="viewShot">
+    <!-- 中列：组图参数配置 -->
+    <section class="shot-config scroll-y">
+      <div class="shot-config__head">
+        <span class="shot-config__title">详细设置</span>
+        <button class="link-action" type="button" id="btnResetImages">重选</button>
+      </div>
+
+      <div class="shot-block" style="border-top:none;padding-top:0">
+        <div class="shot-block__label"><span>主图上传</span></div>
+        <button class="upload-dropzone" type="button" id="shotDrop">
+          <span data-icon="camera" style="margin-bottom:4px"></span>
+          <span class="upload-dropzone__main">最多可上传 9 张 同一商品图</span>
+          <span class="upload-dropzone__sub">建议选择正面、侧面、不同角度的照片</span>
+        </button>
+        <div class="shot-thumbs" id="shotThumbs" style="margin-top:12px"></div>
+      </div>
+
+      <div class="shot-block">
+        <div class="shot-block__label"><span>补充信息（品牌）</span></div>
+        <textarea class="textarea" id="supplementInput" maxlength="500" rows="4"
+          placeholder="1. 产品名称：&#10;2. 尺寸参数：&#10;3. 核心卖点 / 使用场景："></textarea>
+        <div class="counter"><span id="supplementCount">0</span>/500</div>
+      </div>
+
+      <div class="shot-block">
+        <div class="shot-block__label"><span>组图内容</span></div>
+        <div id="shotToggles"></div>
+      </div>
+
+      <div class="shot-block">
+        <div class="shot-block__label"><span>自选风格</span></div>
+        <div class="style-grid" id="styleGrid"></div>
+      </div>
+
+      <div class="shot-block">
+        <button class="btn-generate" id="btnGenerate" type="button" disabled>立即生成</button>
+      </div>
+
+      <input type="file" id="shotFile" accept="image/jpeg,image/png,image/webp" multiple hidden />
+    </section>
+
+    <!-- 右列：生成结果展示 -->
+    <section class="shot-result">
+      <div class="result-preview">
+        <div class="result-preview__head">
+          <div>
+            <div class="result-preview__title" id="previewTitle">产品主图 1:1</div>
+            <div class="result-preview__size" id="previewSize">等待生成</div>
+          </div>
+          <button class="link-action" type="button" id="btnSwitchPreview">重选</button>
+        </div>
+        <div class="result-preview__stage" id="previewStage">
+          <div class="result-preview__placeholder" id="previewPlaceholder">
+            <span data-icon="image-lg"></span>
+            <span class="result-preview__size">上传主图后点击「立即生成」</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-bar">
+        <span class="result-bar__status" id="resultStatus">尚未生成</span>
+        <button class="btn btn--primary btn--sm" id="btnDownloadAll" type="button" disabled>
+          <span data-icon="download"></span>全部下载
+        </button>
+      </div>
+
+      <div class="result-thumbs" id="resultThumbs"></div>
+    </section>
+  </div>
+
+</div>
+
+<script src="/js/icons.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/workspace.js"></script>
+</body>
+</html>

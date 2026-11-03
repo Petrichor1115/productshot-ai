@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>管理主控台 · ProductShot Admin</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+
+  <!-- ============ 顶部栏 ============ -->
+  <header class="admin-topbar">
+    <div class="u-flex u-gap-4" style="align-items:center">
+      <div class="admin-topbar__brand">
+        <span class="admin-topbar__brand-icon" id="brandIcon"></span>
+        <span>管理后台</span>
+      </div>
+      <span class="admin-topbar__title" id="topbarTitle">数据看板</span>
+    </div>
+    <div class="admin-topbar__right">
+      <div class="admin-topbar__user">
+        <span class="admin-topbar__avatar" id="adminAvatar">管</span>
+        <span id="adminName">管理员</span>
+      </div>
+      <button class="btn btn--secondary btn--sm" type="button" id="btnLogout">
+        <span data-icon="logout"></span>登出
+      </button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <!-- ============ 左侧固定导航栏 ============ -->
+    <nav class="admin-nav" id="adminNav" aria-label="管理端导航">
+      <button class="admin-nav__item" type="button" data-route="dashboard">
+        <span class="admin-nav__icon" data-icon="grid"></span><span>数据看板</span>
+      </button>
+      <button class="admin-nav__item" type="button" data-route="sessions">
+        <span class="admin-nav__icon" data-icon="messageSquare"></span><span>会话记录</span>
+      </button>
+      <button class="admin-nav__item" type="button" data-route="records">
+        <span class="admin-nav__icon" data-icon="images"></span><span>生图记录</span>
+      </button>
+      <button class="admin-nav__item" type="button" data-route="feedback">
+        <span class="admin-nav__icon" data-icon="mail"></span><span>用户反馈</span>
+        <span class="admin-nav__badge">预留</span>
+      </button>
+    </nav>
+
+    <!-- ============ 右侧内容区 ============ -->
+    <main class="admin-content">
+      <!-- 视图 1：数据看板 -->
+      <section class="admin-view" id="view-dashboard">
+        <div class="admin-view__head">
+          <h1 class="admin-view__title">数据看板</h1>
+          <p class="admin-view__desc">全平台核心指标总览</p>
+        </div>
+        <div class="stat-grid" id="statGrid"></div>
+      </section>
+
+      <!-- 视图 2：会话记录 -->
+      <section class="admin-view" id="view-sessions">
+        <div class="admin-view__head">
+          <h1 class="admin-view__title">会话记录</h1>
+          <p class="admin-view__desc">全平台用户会话列表</p>
+        </div>
+        <div id="sessionsPanel"></div>
+      </section>
+
+      <!-- 视图 3：生图记录 -->
+      <section class="admin-view" id="view-records">
+        <div class="admin-view__head">
+          <h1 class="admin-view__title">生图记录</h1>
+          <p class="admin-view__desc">全平台图片生成明细（时间精确到分钟）</p>
+        </div>
+        <div id="recordsPanel"></div>
+      </section>
+
+      <!-- 视图 4：用户反馈（预留） -->
+      <section class="admin-view" id="view-feedback">
+        <div class="admin-view__head">
+          <h1 class="admin-view__title">用户反馈</h1>
+          <p class="admin-view__desc">功能规划中，敬请期待</p>
+        </div>
+        <div class="feedback-empty">
+          <div class="feedback-empty__icon" id="feedbackIcon"></div>
+          <div class="feedback-empty__title">用户反馈功能规划中</div>
+          <div class="feedback-empty__desc">敬请期待后续版本</div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="/js/icons.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

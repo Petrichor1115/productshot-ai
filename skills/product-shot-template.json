@@ -1,0 +1,67 @@
+{
+  "skill": "product-shot",
+  "version": "2.1.0",
+  "name": "电商商品套图生成",
+  "description": "基于商品原图与补充信息，生成符合电商规范的主图 / 场景图 / 卖点图三件套",
+  "size": "1024x1024",
+  "styles": {
+    "minimal": {
+      "label": "简约白底",
+      "keywords": "minimal, clean, pure white background, soft shadow",
+      "background": "#FFFFFF",
+      "accent": "#5B7BEE",
+      "text": "#111827"
+    },
+    "premium": {
+      "label": "高级布光",
+      "keywords": "premium, studio lighting, rim light, dramatic shadows",
+      "background": "#151922",
+      "accent": "#C9A063",
+      "text": "#F5F7FA"
+    },
+    "natural": {
+      "label": "自然场景",
+      "keywords": "lifestyle, natural environment, warm sunlight, organic",
+      "background": "#F2E6D4",
+      "accent": "#8A6A45",
+      "text": "#3B2F22"
+    },
+    "dark": {
+      "label": "暗调质感",
+      "keywords": "dark background, moody lighting, product focus",
+      "background": "#0E1116",
+      "accent": "#7C8FFF",
+      "text": "#E8ECF5"
+    }
+  },
+  "shots": {
+    "main": {
+      "label": "产品主图",
+      "ratio": "1:1",
+      "goal": "白底/纯色背景突出商品主体，构图居中，边缘干净，可直接作为电商主图",
+      "prompt_template": "电商产品主图，{{product_name}}，{{category}}。{{style_keywords}}。商品主体完整居中，边缘清晰无遮挡，构图简洁，高分辨率商业摄影质感。补充信息：{{supplement}}。卖点强调：{{selling_points}}。不要出现文字水印与多余装饰。"
+    },
+    "scene": {
+      "label": "使用场景",
+      "ratio": "1:1",
+      "goal": "将商品放入真实使用环境中，体现生活方式与适用性",
+      "prompt_template": "真实使用场景展示图，{{product_name}}，{{category}}。{{style_keywords}}。商品置于自然的生活/工作使用环境中，环境与人设符合目标人群，画面有故事感与空间层次。补充信息：{{supplement}}。卖点强调：{{selling_points}}。不要出现文字水印与多余装饰。"
+    },
+    "selling": {
+      "label": "卖点介绍",
+      "ratio": "1:1",
+      "goal": "商品展示 + 卖点标注版式，突出 3 个核心卖点",
+      "prompt_template": "商品卖点介绍图，{{product_name}}，{{category}}。{{style_keywords}}。商品主体突出，画面留出用于标注卖点的留白区域，版式简洁。补充信息：{{supplement}}。需要突出的卖点：{{selling_points}}。不要出现文字水印与多余装饰。"
+    }
+  },
+  "vision_extraction": {
+    "model_role": "豆包 C 2.1 Lite：识别商品名称、类目与 3 条核心卖点",
+    "system_prompt": "你是资深电商商品分析师。根据商品图片识别：商品名称、商品类目、3 条核心卖点。只输出 JSON，不要任何解释。",
+    "user_prompt_template": "请分析这张商品图，输出 JSON：{\"name\":\"商品名称\",\"category\":\"商品类目\",\"sellingPoints\":[\"卖点1\",\"卖点2\",\"卖点3\"]}。补充信息（如有）：{{supplement}}",
+    "fallback": {
+      "name": "精选商品",
+      "category": "通用商品",
+      "sellingPoints": ["质感出众", "细节考究", "性价比高"]
+    }
+  }
+}
